@@ -12,5 +12,5 @@ services:
     name: flask-app
     runtime: python
     repo:  https://github.com/Dyson1664/test_deploy_selenium.git
-    buildCommand: "./build.sh"
-    startCommand: "./start.sh"
+    buildCommand: "./build.sh && chmod +x build.sh && ./build.sh"
+    startCommand: "./start.sh && chmod +x start.sh && ./start.sh"
