@@ -2,6 +2,6 @@ services:
   - type: web
     name: my-flask-app
     env: python 3.9.13
-    buildCommand: "./render-worker-build.sh"
-    startCommand: "./render-worker-start.sh"
+    buildCommand: "./build.sh"
+    startCommand: "./start.sh"
     region: Singapore (Southeast Asia)
