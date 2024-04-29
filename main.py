@@ -24,6 +24,7 @@ def sel():
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     print('d')
     driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
+    print('e')
     print(driver.title)
     element = driver.find_element(By.XPATH,
                                   '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
