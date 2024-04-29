@@ -13,12 +13,16 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 def sel():
+    print('a')
     options = webdriver.ChromeOptions()
+    print('b')
     options.add_argument('--headless=new')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
+    print('c')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+    print('d')
     driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
     print(driver.title)
     element = driver.find_element(By.XPATH,
@@ -37,6 +41,7 @@ def hello_world():
             print('2')
             print(cad_text, 'llllll')
             return redirect(url_for('caps', cad_text=cad_text))
+    print('hiya')
     return render_template('home.html')
 
 @app.route('/caps')
