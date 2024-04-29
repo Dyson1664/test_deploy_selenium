@@ -4,6 +4,8 @@ from flask import request
 from flask import redirect, url_for
 
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
+
 
 from flask import render_template
 app = Flask(__name__)
@@ -26,11 +28,19 @@ def sel():
     driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
     print('e')
     print(driver.title)
-    element = driver.find_element(By.XPATH,
-                                  '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
-    cad_text = element.text
-    driver.quit()
-    return cad_text
+    try:
+        print('f')
+        element = driver.find_element(By.XPATH,
+                                      '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
+        print('g')
+        cad_text = element.text
+        driver.quit()
+        return cad_text
+
+    except WebDriverException as e:
+        print(f"Error during navigation: {e}")
+
+
 # print(cad.text)
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
