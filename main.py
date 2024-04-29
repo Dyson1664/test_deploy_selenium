@@ -26,17 +26,13 @@ def sel():
     driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
     print('e')
     print(driver.title)
-    try:
-        element = driver.find_element(By.XPATH,
-                                  '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
-        cad_text = element.text
-        driver.quit()
-        return cad_text
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        driver.quit()
-        return 'Error'
+    element = driver.find_element(By.XPATH,
+                                  '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
+    cad_text = element.text
+    driver.quit()
+    return cad_text
+
 # print(cad.text)
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
