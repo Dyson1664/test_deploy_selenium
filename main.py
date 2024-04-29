@@ -1,4 +1,8 @@
 from flask import Flask
+from flask import render_template
+from flask import request
+from flask import redirect, url_for
+
 from selenium.webdriver.common.by import By
 
 from flask import render_template
@@ -23,10 +27,21 @@ def sel():
     driver.quit()
     return cad_text
 # print(cad.text)
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    cad_text = sel()  # Fetching the value from Selenium
-    return render_template('caps.html', cad=cad_text)
+    if request.method == 'POST':
+        print('0')
+        if request.form['submit_button'] == 'Do Something':
+            print('1')
+            cad_text = sel()
+            print('2')
+            print(cad_text, 'llllll')
+            return redirect(url_for('caps', cad_text=cad_text))
+    return render_template('home.html')
 
+@app.route('/caps')
+def caps():
+    cad_text = request.args.get('cad_text', 'Default Value if None')
+    return render_template('caps.html', cad_text=cad_text)
 
 
