@@ -20,6 +20,8 @@ def sel():
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
     print('c')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     print('d')
