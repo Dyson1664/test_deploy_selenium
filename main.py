@@ -33,9 +33,12 @@ def sel():
     print('c')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     print('d')
-    driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
+    try:
+        driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
+    except Exception as e:
+        print(f"Error loading page: {e}")
+        return "Error loading page"
     print('e')
-
     try:
         # Attempt to print the page title
         print(driver.title)
