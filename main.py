@@ -19,7 +19,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-
+import os
+import psutil
+process = psutil.Process(os.getpid())
 def sel():
     print('a')
     options = webdriver.ChromeOptions()
@@ -34,7 +36,9 @@ def sel():
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     print('d')
     try:
+        print(f'Memory usage before get: {process.memory_info().rss / 1024 ** 2} MB')
         driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
+        print(f'Memory usage after get: {process.memory_info().rss / 1024 ** 2} MB')
     except Exception as e:
         print(f"Error loading page: {e}")
         return "Error loading page"
