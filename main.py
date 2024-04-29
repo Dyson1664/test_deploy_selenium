@@ -4,6 +4,13 @@ from flask import request
 from flask import redirect, url_for
 
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 from flask import render_template
 app = Flask(__name__)
@@ -12,11 +19,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
+
 def sel():
     print('a')
     options = webdriver.ChromeOptions()
     print('b')
-    options.add_argument('--headless=new')
+    options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
@@ -27,12 +35,29 @@ def sel():
     print('d')
     driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
     print('e')
-    print(driver.title)
 
-    element = driver.find_element(By.XPATH,
-                                  '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]')
-    cad_text = element.text
-    driver.quit()
+    try:
+        # Attempt to print the page title
+        print(driver.title)
+    except Exception as e:
+        print(f"Failed to get title: {str(e)}")
+
+    try:
+        # Wait for the element to be visible before attempting to interact with it
+        element_xpath = '//*[@id="__next"]/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]'
+        element = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, element_xpath))
+        )
+        cad_text = element.text
+    except NoSuchElementException:
+        print("Element not found")
+        cad_text = "Element not found"
+    except TimeoutException:
+        print("Timed out waiting for page elements to load")
+        cad_text = "Timed out"
+    finally:
+        driver.quit()  # Ensure the driver is quit properly even if an error occurs
+
     return cad_text
 
 # print(cad.text)
