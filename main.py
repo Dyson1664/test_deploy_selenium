@@ -28,7 +28,7 @@ def sel():
     print('a')
     options = webdriver.ChromeOptions()
     print('b')
-    options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
+    # options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
@@ -69,6 +69,32 @@ def sel():
 
     return cad_text
 
+
+def wiki():
+    options = webdriver.ChromeOptions()
+    print('b')
+    # options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
+    print('c')
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+    print('d')
+    try:
+        driver.set_page_load_timeout(30)  # Set a reasonable timeout for page load
+        driver.get('https://en.wikipedia.org/wiki/Main_Page')
+        element = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, '//*[@id="mp-tfa"]/p/b[1]/a'))
+        )
+        cad_text = element.text
+    except WebDriverException as e:
+        print(f"Exception during page load: {e}")
+        driver.quit()
+        return "Failed to load page"
+
+    return cad_text
 # print(cad.text)
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
@@ -76,7 +102,8 @@ def hello_world():
         print('0')
         if request.form['submit_button'] == 'Do Something':
             print('1')
-            cad_text = sel()
+            # cad_text = sel()
+            cad_text = wiki()
             print('2')
             print(cad_text, 'llllll')
             return redirect(url_for('caps', cad_text=cad_text))
