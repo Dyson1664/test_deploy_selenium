@@ -11,6 +11,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import WebDriverException
+
 
 from flask import render_template
 app = Flask(__name__)
@@ -36,12 +38,12 @@ def sel():
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     print('d')
     try:
-        print(f'Memory usage before get: {process.memory_info().rss / 1024 ** 2} MB')
+        driver.set_page_load_timeout(30)  # Set a reasonable timeout for page load
         driver.get('https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD')
-        print(f'Memory usage after get: {process.memory_info().rss / 1024 ** 2} MB')
-    except Exception as e:
-        print(f"Error loading page: {e}")
-        return "Error loading page"
+    except WebDriverException as e:
+        print(f"Exception during page load: {e}")
+        driver.quit()
+        return "Failed to load page"
     print('e')
     try:
         # Attempt to print the page title
