@@ -28,7 +28,7 @@ def sel():
     print('a')
     options = webdriver.ChromeOptions()
     print('b')
-    # options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
+    options.add_argument('--headless')  # corrected from '--headless=new' to '--headless'
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
