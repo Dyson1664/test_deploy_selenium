@@ -4,7 +4,7 @@
 #    env: python 3.9.13
 #    buildCommand: "./build.sh"
 #    startCommand: "./start.sh"
-#    region: Singapore (Southeast Asia) 6
+#    region: Singapore (Southeast Asia) 5
 
 services:
   - type: web # A Python web service named django-app running on a free instance
